@@ -110,8 +110,8 @@
   "When t it will show hidden files in directory."
   :group 'ranger
   :type '(radio (const :tag "Show All Files" :value 'format)
-                (const :tag "Hide Common Files" :value 'prefer)
-                (const :tag "Hide All Dotfiles" :value 'hidden)))
+          (const :tag "Hide Common Files" :value 'prefer)
+          (const :tag "Hide All Dotfiles" :value 'hidden)))
 
 (defcustom ranger-format-regexp
   '("^\\.?#\\|^\\.$\\|^\\.\\.$")
@@ -263,23 +263,23 @@ Outputs a string that will show up on the header-line."
   "Specify style to display tabs in ranger."
   :group 'ranger
   :type '(radio (const :tag "Ranger" :value ranger)
-                (const :tag "Dired" :value dired)
-                (const :tag "Emacs" :value emacs)))
+          (const :tag "Dired" :value dired)
+          (const :tag "Emacs" :value emacs)))
 
 (defcustom ranger-tabs-style 'normal
   "Specify style to display tabs in ranger."
   :group 'ranger
   :type '(radio (const :tag "Normal" :value normal)
-                (const :tag "Roman numerals" :value roman)
-                (const :tag "Numbers only" :value numbers)))
+          (const :tag "Roman numerals" :value roman)
+          (const :tag "Numbers only" :value numbers)))
 
 ;;;###autoload
 (defcustom ranger-override-dired nil
   "When non-nil, load `deer' whenever dired is loaded."
   :group 'ranger
   :type '(radio (const :tag "Deer" :value t)
-                (const :tag "Ranger" :value ranger)
-                (const :tag "Don't Override" :value nil)))
+          (const :tag "Ranger" :value ranger)
+          (const :tag "Don't Override" :value nil)))
 
 (defcustom ranger-dont-show-binary t
   "When non-nil, detect binary files and don't show them in the
@@ -412,13 +412,13 @@ its result will be displayed instead."
 Selective hiding of specific attributes can be controlled by MASK."
   (let ((cursor beg) props)
     (cl-labels ((ranger-make-display-props
-            (display-function-or-flag)
-            (cond ((functionp display-function-or-flag)
-                   `(display
-                     ,(apply display-function-or-flag
-                             (list (buffer-substring cursor (1- (point)))))))
-                  ((null display-function-or-flag) '(invisible t))
-                  (t nil))))
+                  (display-function-or-flag)
+                  (cond ((functionp display-function-or-flag)
+                         `(display
+                           ,(apply display-function-or-flag
+                                   (list (buffer-substring cursor (1- (point)))))))
+                        ((null display-function-or-flag) '(invisible t))
+                        (t nil))))
       (if t
           (block block
             (mapc (lambda (do-display)
@@ -1481,7 +1481,7 @@ ranger-`CHAR'."
                          (cl-case ranger-show-hidden
                            ('prefer ranger-prefer-regexp)
                            ('hidden ranger-prefer-regexp ranger-hidden-regexp)))))
-                 (ranger-omit-files omit-re)))
+    (ranger-omit-files omit-re)))
 
 (defun ranger-omit-files (regexp)
   (interactive)
@@ -1608,7 +1608,7 @@ ranger-`CHAR'."
                 :action
                 (lambda (x)
                   (with-ivy-window
-                    (ranger-find-file (expand-file-name x default-directory))))))
+                   (ranger-find-file (expand-file-name x default-directory))))))
      (t
       (ranger-find-file (ido-read-file-name prompt))))))
 
@@ -1681,35 +1681,35 @@ currently selected file in ranger. `IGNORE-HISTORY' will not update history-ring
 
 ;; TODO closing one deer window disables both
 (defun ranger-open-file (&optional mode)
-      "Find file in ranger buffer.  `ENTRY' can be used as path or filename, else will use
+  "Find file in ranger buffer.  `ENTRY' can be used as path or filename, else will use
 currently selected file in ranger. `IGNORE-HISTORY' will not update history-ring on change"
-      (let ((marked-files (dired-get-marked-files)))
-        (cl-loop for find-name in marked-files do
-                 (let ((dir-p (file-directory-p find-name))
-                       (min (r--fget ranger-minimal)))
-                   (when (and find-name)
-                     (cl-case mode
-                       ('frame
-                        (let ((goto-frame (make-frame)))
-                          (select-frame-set-input-focus goto-frame)))
-                       ('horizontal
-                        (when (or min (not  dir-p))
-                          (unless min
-                            (ranger-disable))
-                          (split-window-right)
-                          (windmove-right)))
-                       ('vertical
-                        (when (or min (not dir-p))
-                          (unless min
-                            (ranger-disable))
-                          (split-window-below)
-                          (windmove-down)))
-                       ('other
-                        (when (or min (not dir-p))
-                          (unless min
-                            (ranger-disable))
-                          (other-window 1))))
-                     (ranger-find-file find-name))))))
+  (let ((marked-files (dired-get-marked-files)))
+    (cl-loop for find-name in marked-files do
+             (let ((dir-p (file-directory-p find-name))
+                   (min (r--fget ranger-minimal)))
+               (when (and find-name)
+                 (cl-case mode
+                   ('frame
+                    (let ((goto-frame (make-frame)))
+                      (select-frame-set-input-focus goto-frame)))
+                   ('horizontal
+                    (when (or min (not  dir-p))
+                      (unless min
+                        (ranger-disable))
+                      (split-window-right)
+                      (windmove-right)))
+                   ('vertical
+                    (when (or min (not dir-p))
+                      (unless min
+                        (ranger-disable))
+                      (split-window-below)
+                      (windmove-down)))
+                   ('other
+                    (when (or min (not dir-p))
+                      (unless min
+                        (ranger-disable))
+                      (other-window 1))))
+                 (ranger-find-file find-name))))))
 
 ;; idea taken from http://ergoemacs.org/emacs/emacs_dired_open_file_in_ext_apps.html
 (defun ranger-open-in-external-app ()
@@ -1883,7 +1883,7 @@ R   : ranger . el location
      ((eobp) (progn (forward-line -1)
                     (dired-next-line 0)))
      ((bobp) (dired-next-line 0)))
-   (ranger-show-file-details)
+    (ranger-show-file-details)
     ;; don't change preview window if no change
     (when (not (eq (point) cur))
       (when (and (not (r--fget ranger-minimal))
@@ -1909,62 +1909,62 @@ R   : ranger . el location
 
 (defun ranger--footer-spec (&optional sizes)
   "Echo file details."
-    (let* ((entry (dired-get-filename nil t))
-           ;; enable to troubleshoot speeds
-           ;; (sizes t)
-           (filename (file-name-nondirectory entry))
-           (fattr (file-attributes entry))
-           (file-size (if sizes (concat "File "
-                                        (file-size-human-readable (nth 7 fattr))) "Press \'du\' for size info."))
-           (dir-size (if sizes (concat "Dir " (ranger--get-file-sizes
-                                               (ranger--get-file-listing
-                                                dired-directory)))
-                       ""))
-           (user (nth 2 fattr))
-           (file-mount
-            (if sizes
-                (or (let ((index 0)
-                          size
-                          return)
-                      (dolist (mount (ranger--get-mount-partitions 'mount)
-                                     return)
-                        (when (string-match (concat "^" mount "/.*") entry)
-                          (setq size
-                                (nth index
-                                     (ranger--get-mount-partitions 'avail)))
-                          (setq return (format "%s free (%s)" size mount)))
-                        (setq index (+ index 1))
-                        ))
-                    "") ""))
-           (filedir-size (if sizes (ranger--get-file-sizes
-                                    (ranger--get-file-listing dired-directory))
-                           ""))
-           (file-date
-            (propertize
-             (format-time-string "%Y-%m-%d %H:%m"
-                                 (nth 5 fattr))
-             'face 'font-lock-warning-face))
-           (file-perm (nth 8 fattr))
-           (cur-pos (- (line-number-at-pos (point)) 1))
-           (final-pos (- (line-number-at-pos (point-max)) 2))
-           (position (format "%3d/%-3d"
-                             cur-pos
-                             final-pos))
-           (space "&&&")
-           (footer-spec
-             `(
-              (?U . ,user)
-              (?c . ,dir-size)
-              (?d . ,file-date)
-              (?f . ,file-mount)
-              (?m . ,file-perm)
-              (?p . ,position)
-              (?s . ,file-size)
-              (?u . ,filedir-size)
-              (?w . ,space)
-              )))
-      footer-spec
-      ))
+  (let* ((entry (dired-get-filename nil t))
+         ;; enable to troubleshoot speeds
+         ;; (sizes t)
+         (filename (file-name-nondirectory entry))
+         (fattr (file-attributes entry))
+         (file-size (if sizes (concat "File "
+                                      (file-size-human-readable (nth 7 fattr))) "Press \'du\' for size info."))
+         (dir-size (if sizes (concat "Dir " (ranger--get-file-sizes
+                                             (ranger--get-file-listing
+                                              dired-directory)))
+                     ""))
+         (user (nth 2 fattr))
+         (file-mount
+          (if sizes
+              (or (let ((index 0)
+                        size
+                        return)
+                    (dolist (mount (ranger--get-mount-partitions 'mount)
+                                   return)
+                      (when (string-match (concat "^" mount "/.*") entry)
+                        (setq size
+                              (nth index
+                                   (ranger--get-mount-partitions 'avail)))
+                        (setq return (format "%s free (%s)" size mount)))
+                      (setq index (+ index 1))
+                      ))
+                  "") ""))
+         (filedir-size (if sizes (ranger--get-file-sizes
+                                  (ranger--get-file-listing dired-directory))
+                         ""))
+         (file-date
+          (propertize
+           (format-time-string "%Y-%m-%d %H:%m"
+                               (nth 5 fattr))
+           'face 'font-lock-warning-face))
+         (file-perm (nth 8 fattr))
+         (cur-pos (- (line-number-at-pos (point)) 1))
+         (final-pos (- (line-number-at-pos (point-max)) 2))
+         (position (format "%3d/%-3d"
+                           cur-pos
+                           final-pos))
+         (space "&&&")
+         (footer-spec
+          `(
+            (?U . ,user)
+            (?c . ,dir-size)
+            (?d . ,file-date)
+            (?f . ,file-mount)
+            (?m . ,file-perm)
+            (?p . ,position)
+            (?s . ,file-size)
+            (?u . ,filedir-size)
+            (?w . ,space)
+            )))
+    footer-spec
+    ))
 
 (defun ranger-details-message (&optional sizes)
   "Echo file details."
@@ -2656,13 +2656,13 @@ fraction of the total frame size"
   "Will kill all ranger buffers that are not displayed in any window."
   (interactive)
   (cl-loop for buffer in
-            (cl-remove-duplicates
-             (append
-              ranger-preview-buffers
-              ranger-parent-buffers
-              ranger-visited-buffers)
-             :test (lambda (x y) (or (null y) (eq x y)))
-             ) do
+           (cl-remove-duplicates
+            (append
+             ranger-preview-buffers
+             ranger-parent-buffers
+             ranger-visited-buffers)
+            :test (lambda (x y) (or (null y) (eq x y)))
+            ) do
            (unless (get-buffer-window buffer t)
              (ranger-kill-buffer buffer))))
 
@@ -2706,7 +2706,7 @@ fraction of the total frame size"
          (if (equal key curr)
              (propertize ret
                          'face '(:inherit font-lock-builtin-face)
-                                     :background "#323232")
+                         :background "#323232")
            (propertize ret
                        'face 'font-lock-comment-face
                        'pointer 'hand
@@ -2886,8 +2886,8 @@ properly provides the modeline in dired mode. "
   (interactive)
   (let* ((win-num (length (window-list-1)))
          (buffer-dir (file-name-directory
-                             (or buffer-file-name
-                                 default-directory)))
+                      (or buffer-file-name
+                          default-directory)))
          (next-buffer (and (> win-num 1)
                            (window-buffer (next-window)))))
     (switch-to-buffer-other-window next-buffer)
@@ -3081,7 +3081,7 @@ properly provides the modeline in dired mode. "
           (ranger-show-details)
         (ranger-hide-details))
     (progn
-        (ranger-hide-details)))
+      (ranger-hide-details)))
 
   ;; hide details line at top - show symlink targets
   (funcall 'add-to-invisibility-spec 'dired-hide-details-information)
