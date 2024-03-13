@@ -2622,7 +2622,7 @@ fraction of the total frame size"
     (if (not  (or (ranger-windows-exists-p)
                   (ranger-frame-exists-p)))
         (progn
-          (message "All ranger frames have been killed, reverting ranger settings and cleaning buffers.")
+          (ranger--message "All ranger frames have been killed, reverting ranger settings and cleaning buffers.")
           (ranger-revert))
       ;; when still in ranger's window, make sure ranger's primary window and buffer are still here.
       (when ranger-window-props
